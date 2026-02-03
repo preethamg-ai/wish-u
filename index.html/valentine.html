@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Beauty</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(to bottom, black, darkred);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* SLIDES */
+.slide {
+    display: none;
+    height: 100vh;
+    padding-top: 18vh;
+}
+.slide.active {
+    display: block;
+}
+
+/* BUTTON */
+button {
+    padding: 14px 35px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: 1px solid red;
+    background: black;
+    color: red;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* HEARTS */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    color: red;
+    animation: floatUp 6s linear infinite;
+}
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* IMAGE FLIP */
+.gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.flip-card {
+    background: transparent;
+    width: 180px;
+    height: 240px;
+    perspective: 1000px;
+    animation: floatImg 4s ease-in-out infinite;
+}
+
+@keyframes floatImg {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
+
+.flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+}
+
+.flip-front img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.flip-back {
+    background: black;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transform: rotateY(180deg);
+    border: 1px solid red;
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SLIDE 1 -->
+<div class="slide active" id="slide1">
+    <h1>For My Beauty ❤️</h1>
+    <button onclick="startExperience()">Click Me</button>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" id="slide2">
+    <h2>Loading my memories…</h2>
+    <p>❤️ ❤️ ❤️</p>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" id="slide3">
+
+    <div class="gallery">
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front"><img src="img1.jpg"></div>
+                <div class="flip-back">Love you ❤️</div>
+            </div>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front"><img src="img2.jpg"></div>
+                <div class="flip-back">Love you ❤️</div>
+            </div>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front"><img src="img3.jpg"></div>
+                <div class="flip-back">Love you ❤️</div>
+            </div>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front"><img src="img4.jpg"></div>
+                <div class="flip-back">Love you ❤️</div>
+            </div>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-inner">
+                <div class="flip-front"><img src="img5.jpg"></div>
+                <div class="flip-back">Love you ❤️</div>
+            </div>
+        </div>
+    </div>
+
+    <p style="margin-top:30px; font-size:18px;">
+        You are not with me now,<br>
+        but I still remember those days.<br><br>
+        I still love you silently,<br>
+        even when I don’t know what to do.<br><br>
+        Some memories never fade.
+    </p>
+
+    <h2 style="color:red;">Happy Valentine’s Day ❤️</h2>
+
+    <button onclick="stopAll()">Back</button>
+</div>
+
+<script>
+let heartInterval;
+const music = document.getElementById("bgMusic");
+
+function startExperience() {
+    music.play();
+    startHearts();
+    showSlide(2);
+
+    setTimeout(() => {
+        showSlide(3);
+    }, 3000);
+}
+
+function startHearts() {
+    heartInterval = setInterval(createHeart, 400);
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}
+
+function showSlide(n) {
+    document.querySelectorAll(".slide").forEach(s => s.classList.remove("active"));
+    document.getElementById("slide" + n).classList.add("active");
+}
+
+function stopAll() {
+    clearInterval(heartInterval);
+    music.pause();
+    music.currentTime = 0;
+}
+</script>
+
+</body>
+</html>
